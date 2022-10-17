@@ -57,4 +57,14 @@ function addRow(tableID, elemn) {
   }
 }
 
+function realizarCalculos(params) {
+  
+}
 
+function media(params) {
+
+}
+
+function varianza(params) {
+  
+}
