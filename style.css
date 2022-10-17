@@ -1,0 +1,28 @@
+.table1 {
+    width: 100%;
+    height: 200px;
+    overflow: auto;
+}
+.dark0 {
+    background-color: #e8e8e5;
+}
+
+.dark01 {
+    background-color: #d6d6d4;
+}
+
+.dark1 {
+    background-color: #191a19;
+}
+
+.dark2 {
+    background-color: #1e5128;
+}
+
+.dark3 {
+    background-color: #4e9f3d;
+}
+
+.dark4 {
+    background-color: #d8e9a8;
+}
