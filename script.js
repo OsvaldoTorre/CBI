@@ -59,11 +59,12 @@ function addRow(tableID, elemn) {
 }
 
 function inicio() {
-  media(word);
+  pPertenencia(word,"tbodyRes");
 }
 
-function fDensidad(media, varianza) {
+function fDensidad(media, varianza, X) {
   res = (1 / (varianza * (Math.sqrt(2 * Math.PI)))) * Math.exp((-(1 / 2)) * (Math.pow(((X - media) / varianza), 2)));
+  return parseFloat(res);
 }
 
 function media(patrones) {
@@ -142,6 +143,7 @@ function media(patrones) {
   mediaC1V = cds1 / 50
   mediaC2V = cds2 / 50
   mediaC3V = cds3 / 50
+console.log(mediaC0S);
 
   localStorage.setItem('ms1',mediaC0S);
   localStorage.setItem('ms2',mediaC1S);
@@ -182,7 +184,7 @@ function varianza(media) {
         }
 
         //Varianza Setosa
-        localStorage.setItem('vs1',c1s);
+        Window.localStorage.setItem('vs1',c1s);
         localStorage.setItem('vs2',c2s);
         localStorage.setItem('vs3',c3s);
         localStorage.setItem('vs4',c4s);
@@ -232,3 +234,70 @@ function varianza(media) {
 
   }
 }
+
+function pPertenencia(patrones, tableID) {
+
+  var tableRef = document.getElementById(tableID);
+
+  for (let fila = 0; fila < patrones.length; fila++) {
+
+    var newRow = tableRef.insertRow(fila);
+
+    for (let celda = 0; celda < patrones[fila].length; celda++) {
+
+      var newCell = newRow.insertCell(celda);
+
+      if (celda==0) {
+        var newNum = document.createTextNode(fila); //#
+        newCell.appendChild(newNum);
+      }else if (celda==1) {
+        var newNum = document.createTextNode(patrones[fila].slice(0, patrones[fila].length - 1));
+        newCell.appendChild(newNum);
+        fds0 = parseFloat(fDensidad(localStorage.getItem('ms1'), localStorage.getItem('vs1'),patrones[fila][celda]));
+        fdc0 = parseFloat(fDensidad(localStorage.getItem('mc1'), localStorage.getItem('vc1'),patrones[fila][celda]));
+        fdv0 = parseFloat(fDensidad(localStorage.getItem('mv1'), localStorage.getItem('vv1'),patrones[fila][celda]));
+      }else if (celda==2) {
+        fds1 = parseFloat(fDensidad(localStorage.getItem('ms2'), localStorage.getItem('vs2'),patrones[fila][celda]));
+        fdc1 = parseFloat(fDensidad(localStorage.getItem('mc2'), localStorage.getItem('vc2'),patrones[fila][celda]));
+        fdv1 = parseFloat(fDensidad(localStorage.getItem('mv2'), localStorage.getItem('vv2'),patrones[fila][celda]));
+      }else if (celda==3) {
+        fds2 = parseFloat(fDensidad(localStorage.getItem('ms3'), localStorage.getItem('vs3'),patrones[fila][celda]));
+        fdc2 = parseFloat(fDensidad(localStorage.getItem('mc3'), localStorage.getItem('vc3'),patrones[fila][celda]));
+        fdv2 = parseFloat(fDensidad(localStorage.getItem('mv3'), localStorage.getItem('vv3'),patrones[fila][celda]));
+      }else if (celda==4) {
+        fds3 = parseFloat(fDensidad(localStorage.getItem('ms4'), localStorage.getItem('vs4'),patrones[fila][celda]));
+        fdc3 = parseFloat(fDensidad(localStorage.getItem('mc4'), localStorage.getItem('vc4'),patrones[fila][celda]));
+        fdv3 = parseFloat(fDensidad(localStorage.getItem('mv4'), localStorage.getItem('vv4'),patrones[fila][celda]));
+      }
+    }
+
+    pertS= (fds0+fds1+fds2+fds3)/((1/3)*((fds0+fds1+fds2+fds3)+(fdc0+fdc1+fdc2+fdc3)+(fdv0+fdv1+fdv2+fdv3)));
+    pertC= (fdc0+fdc1+fdc2+fdc3)/((1/3)*((fds0+fds1+fds2+fds3)+(fdc0+fdc1+fdc2+fdc3)+(fdv0+fdv1+fdv2+fdv3)));
+    pertV= (fdv0+fdv1+fdv2+fdv3)/((1/3)*((fds0+fds1+fds2+fds3)+(fdc0+fdc1+fdc2+fdc3)+(fdv0+fdv1+fdv2+fdv3)));
+    pertenece ="";
+
+   // console.log(pertS+","+pertC+","+pertV);
+
+    if (pertS > pertC) {
+      if (pertS > pertV) {
+        pertenece = "Setosa";
+      }else{
+        pertenece = "Virginica";
+      }
+    } else{
+      if (pertC > pertV) {
+        pertenece = "Versicolor";
+      }else{
+        pertenece = "Virginica";
+      }
+    }
+
+    var newNum = document.createTextNode(pertenece); //numero 5
+    newCell.appendChild(newNum);
+    
+
+
+
+  }
+
+} 
